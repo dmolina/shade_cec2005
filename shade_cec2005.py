@@ -39,11 +39,13 @@ def main(args):
     dim = params.dim
     fid = params.fun
     fun = Function(fid, dim)
+    info = fun.info()
     fitness_fun = fun.get_eval_function()
     output = "results/shade_cec2005_f{}d{}_s{}r{}".format(fid, dim, params.seedid, params.run)
+    info['best'] = 0
 
     for r in range(params.run):
-        result,bestIndex = shade.improve(fitness_fun, fun.info(), dim, 10000*dim,
+        result,bestIndex = shade.improve(fitness_fun, info, dim, 10000*dim,
                                name_output=output, replace=True, popsize=100)
         print(fun.info())
         best_sol = result.solution
