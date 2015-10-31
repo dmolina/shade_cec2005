@@ -44,10 +44,11 @@ def main(args):
     fitness_fun = fun.get_eval_function()
     output = "results/shade_cec2005_f{0}d{1}_s{2}r{3}".format(fid, dim, params.seedid, params.run)
     info['best'] = 0
+    ignoreLimits = [fid != 7 and fid != 25]
 
     for r in range(params.run):
         result,bestIndex = shade.improve(fitness_fun, info, dim, 10000*dim,
-                               name_output=output, replace=False, times=params.run, popsize=100)
+                                         name_output=output, replace=False, times=params.run, popsize=100, ignoreLimits=ignoreLimits)
         best_sol = result.solution
         best_fitness = result.fitness
         assert(fitness_fun(best_sol)==best_fitness)

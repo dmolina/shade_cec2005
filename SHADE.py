@@ -14,7 +14,7 @@ import numpy as np
 from DE import EAresult, random_population, get_experiments_file, random_indexes
 import math
 
-def improve(fun, run_info, dimension, check_evals, name_output=None, replace=True, popsize=100, H=100, population=None, population_fitness=None, initial_solution=None, MemF=None, MemCR=None, times=1):
+def improve(fun, run_info, dimension, check_evals, name_output=None, replace=True, popsize=100, H=100, population=None, population_fitness=None, initial_solution=None, MemF=None, MemCR=None, times=1, ignoreLimits=False):
     """
     It applies the DE elements.
 
@@ -34,6 +34,8 @@ def improve(fun, run_info, dimension, check_evals, name_output=None, replace=Tru
     replace replace the file
     debug show the debug info if it is true
     PS population size
+    times the number of runs to carry out.
+    ignoreLimits ignore the limits in the run.
     """
     assert isinstance(dimension, int), 'dimension should be integer'
     assert (dimension > 0), 'dimension must be positive'
@@ -116,7 +118,8 @@ def improve(fun, run_info, dimension, check_evals, name_output=None, replace=Tru
             # Mutation
             v = xi + Fi*(xbest - xi) + Fi*(xr1-xr2)
             # Special clipping
-            v = shade_clip(domain, v, xi)
+            if not ignoreLimits:
+                v = shade_clip(domain, v, xi)
             # Crossover
             idxchange = np.random.rand(dimension) < CRi
             u[i] = np.copy(xi)
