@@ -54,7 +54,7 @@ def main(args):
 
     for r in range(params.run):
         result,bestIndex = shade.improve(fitness_fun, info, dim, 10000*dim,
-                                         name_output=output, replace=True, times=params.run, popsize=100, ignoreLimits=ignoreLimits)
+                                         name_output=output, replace=False, times=params.run, popsize=100, ignoreLimits=ignoreLimits)
         best_sol = result.solution
         best_fitness = result.fitness
 
