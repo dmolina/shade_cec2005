@@ -14,7 +14,7 @@ import numpy as np
 from DE import EAresult, random_population, get_experiments_file, random_indexes
 import math
 
-def improve(fun, run_info, dimension, check_evals, name_output=None, replace=True, popsize=100, H=100, population=None, population_fitness=None, initial_solution=None, MemF=None, MemCR=None):
+def improve(fun, run_info, dimension, check_evals, name_output=None, replace=True, popsize=100, H=100, population=None, population_fitness=None, initial_solution=None, MemF=None, MemCR=None, times=1):
     """
     It applies the DE elements.
 
@@ -38,7 +38,7 @@ def improve(fun, run_info, dimension, check_evals, name_output=None, replace=Tru
     assert isinstance(dimension, int), 'dimension should be integer'
     assert (dimension > 0), 'dimension must be positive'
 
-    final, fid = get_experiments_file(name_output, replace)
+    final, fid = get_experiments_file(name_output, replace, times=times)
 
     if final is not None:
         return final

@@ -1,3 +1,4 @@
+#!/bin/env python
 """
 This program allow to run the SHADE algorithm using the CEC'2005 benchmark.
 
@@ -41,17 +42,15 @@ def main(args):
     fun = Function(fid, dim)
     info = fun.info()
     fitness_fun = fun.get_eval_function()
-    output = "results/shade_cec2005_f{}d{}_s{}r{}".format(fid, dim, params.seedid, params.run)
+    output = "results/shade_cec2005_f{0}d{1}_s{2}r{3}".format(fid, dim, params.seedid, params.run)
     info['best'] = 0
 
     for r in range(params.run):
         result,bestIndex = shade.improve(fitness_fun, info, dim, 10000*dim,
-                               name_output=output, replace=True, popsize=100)
-        print(fun.info())
+                               name_output=output, replace=False, times=params.run, popsize=100)
         best_sol = result.solution
         best_fitness = result.fitness
         assert(fitness_fun(best_sol)==best_fitness)
-        print(best_fitness)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
