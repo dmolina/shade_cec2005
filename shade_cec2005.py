@@ -9,6 +9,7 @@ import SHADE as shade
 import argparse
 import numpy
 import sys
+import os
 
 def main(args):
     "Main program."
@@ -44,14 +45,21 @@ def main(args):
     fitness_fun = fun.get_eval_function()
     output = "results/shade_cec2005_f{0}d{1}_s{2}r{3}".format(fid, dim, params.seedid, params.run)
     info['best'] = 0
-    ignoreLimits = [fid != 7 and fid != 25]
+    ignoreLimits = (fid != 7 and fid != 25)
+    noisy = (fid == 4 or fid == 25)
+
+    
+    if os.path.exists(output):
+        return
 
     for r in range(params.run):
         result,bestIndex = shade.improve(fitness_fun, info, dim, 10000*dim,
-                                         name_output=output, replace=False, times=params.run, popsize=100, ignoreLimits=ignoreLimits)
+                                         name_output=output, replace=True, times=params.run, popsize=100, ignoreLimits=ignoreLimits)
         best_sol = result.solution
         best_fitness = result.fitness
-        assert(fitness_fun(best_sol)==best_fitness)
+
+        if not noisy:
+            assert(fitness_fun(best_sol)==best_fitness)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
